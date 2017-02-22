@@ -13,9 +13,9 @@ ALL RIGHTS RESERVED
 
 #include <vector>
 
-#include "ActivationFunction.h"
-#include "CostFunction.h"
-#include "DescentMethod.h"
+#include "ActivationFunctionBase.h"
+#include "CostFunctionBase.h"
+#include "DescentMethodBase.h"
 
 class Layer;
 
@@ -33,21 +33,22 @@ class Layer
     Layer *nextLayer_;
     std::vector<Layer*> v_convolutionLayers_;
     
-    ActivationFunction *activationFunction_=0;
-    CostFunction *costFunction_=0;
-    DescentMethod *descentMethod_=0;
+    ActivationFunctionBase *activationFunction_;
+    CostFunctionBase *costFunction_;
+    DescentMethodBase *descentMethod_;
     
   public:
   
-    // if nextLayer = 0, this is an output layer
-    Layer(unsigned int neurons, int hidinout, Layer *nextLayer=0, Layer *convLayer=0);
+    Layer(unsigned int neurons, int hidinout);
+    void setNextLayer(Layer *nextLayer);
+    void setConvolutionLayers(std::vector<Layer*> v_convolution_Layers);
     
-    setInputs(std::vector<float> *inputs);
+    void setInputs(std::vector<float> *inputs);
     
-    computeActivations();                       // compute y from z. needs a given activationFunction_
-    computeForwardPropagation();                // compute v_z of next layer from v_y and v_v_w of this layer
+    void computeActivations();                       // compute y from z. needs a given activationFunction_
+    void computeForwardPropagation();                // compute v_z of next layer from v_y and v_v_w of this layer
     
-    computedEdz();                              // if output layer, depends on costFunction and activationFunction. else, needs dE/dz of next layer, weights, activationFunction of this layer
-    computedEdw();                              // needs dEdz of next layer, activation of this layer
-    computeNewWeights();                        // needs dE/dw of this layer's and convolved layer's fan-out weights. needs descent method
+    void computedEdz();                              // if output layer, depends on costFunction and activationFunction. else, needs dE/dz of next layer, weights, activationFunction of this layer
+    void computedEdw();                              // needs dEdz of next layer, activation of this layer
+    void computeNewWeights();                        // needs dE/dw of this layer's and convolved layer's fan-out weights. needs descent method
 };
