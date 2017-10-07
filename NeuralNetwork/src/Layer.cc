@@ -14,15 +14,15 @@ ALL RIGHTS RESERVED
 
 #include "../interface/Layer.h"
 
-Layer::Layer(unsigned int neurons, int hidinout)
+Layer::Layer(unsigned int nNeurons, int hidinout)
 {
   hidinout_=hidinout;
   
-  v_z_.resize(neurons);
-  v_y_.resize(neurons);
-  v_v_w_->resize(neurons);
-  v_dEdz_.resize(neurons);
-  v_v_dEdw_.resize(neurons);
+  v_z_.resize(nNeurons);
+  v_y_.resize(nNeurons);
+  v_v_w_->resize(nNeurons);
+  v_dEdz_.resize(nNeurons);
+  v_v_dEdw_.resize(nNeurons);
   
   nextLayer_=0;
   
@@ -74,4 +74,15 @@ void Layer::setInputs(std::vector<float> *v_inputs)
     assert(0);
   }
 }
+
+void Layer::computeActivations()
+{
+  for (unsigned int i=0; i<v_y_.size(); ++i)
+  {
+    v_y_.at(i)=activationFunction_->activate(v_z_.at(i));
+  }
+}
+
+
+
   

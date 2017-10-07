@@ -39,7 +39,7 @@ class Layer
     
   public:
   
-    Layer(unsigned int neurons, int hidinout);
+    Layer(unsigned int nNeurons, int hidinout);
     void setNextLayer(Layer *nextLayer);
     void setConvolutionLayers(std::vector<Layer*> v_convolution_Layers);
     
